@@ -1,34 +1,39 @@
-// モジュール読み込み
-const express = require("express");
-const ejs = require("ejs");
-const config = require("config");
+//モジュール読み込み
+const express = require('express')
+const ejs = require('ejs')
+const config = require('config')
 
-// カスタムモジュール読み込み
-const routes = require("./routes");
+//カスタムモジュール 読み込み
+const routes = require('./routes')
 
-// config 設定
+//設定読み込み
 const port = config.server.port
 const host = config.server.host
 
-// Express 作成
+console.log(port)
+console.log(host)
+
+//Express を作成
 const app = express()
 
-// EJS 設定
+//EJS を有効にする（テンプレートエンジンを利用する）
 app.set('ejs', ejs.renderFile)
 
-// JSON
+//ミドルウェア設定
+//JSON
 app.use(express.json())
 
-// URLエンコード
+//URLエンコード
 app.use(express.urlencoded({ extended: true }))
 
-// 静的ファイル有効
+//静的ファイル有効
 app.use(express.static(__dirname + '/public'))
 
-// ミドルウェアルーティング
+//ミドルウェアルーティング
 app.use(routes)
+//app.use('/', routes)
 
-// ポート:3000ホスト:Localhost で待機
+//ポート: 3000 ホスト: localhost で待機
 app.listen(port, host, () => {
     console.log(`app listen: http://${host}:${port}`)
 });
